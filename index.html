@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Profesyonel Ezan ve Asistan Pro V5 (Ultra Light & Verified)</title>
+    <title>Profesyonel Ezan ve Asistan Pro V5 (Ultra Light & Full Stream)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -115,11 +115,8 @@
         .zikir-btn { background: var(--active-vakit); border: none; color: white; padding: 15px 30px; font-weight: bold; border-radius: 12px; cursor: pointer; font-size: 18px; width: 60%; }
         .zikir-sayac { font-size: 32px; font-weight: bold; font-family: monospace; color: var(--accent); }
 
-        .kaza-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
-        .kaza-item { background: rgba(0,0,0,0.1); padding: 8px 4px; border-radius: 10px; text-align: center; border: 1px solid var(--card-border); }
-        .kaza-name { font-size: 11px; font-weight: bold; color: var(--text-muted); margin-bottom: 5px; }
-        .kaza-count { font-size: 16px; font-weight: bold; margin: 4px 0; }
-        .kaza-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 4px; width: 22px; height: 22px; cursor: pointer; }
+        .takvim-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--card-border); font-size: 13px; }
+        .takvim-kalan { background: rgba(79, 209, 197, 0.15); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-weight: 600; font-size: 11px; }
 
         .sure-btn { background: var(--active-vakit); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
@@ -130,7 +127,12 @@
         .sure-ar { font-size: 24px; font-family: serif; color: white; margin-bottom: 8px; line-height: 1.8; }
         .sure-tr { font-size: 14px; color: var(--accent); text-align: left; font-style: italic; }
 
-        .salavat-detay { margin-top: 10px; font-size: 14px; color: var(--text-main); background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px; border-left: 3px solid var(--accent); text-align: left; line-height: 1.4; }
+        .salavat-detay { 
+            margin-top: 12px; font-size: 14px; color: var(--text-main); 
+            background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; 
+            border-left: 4px solid var(--accent); text-align: left; line-height: 1.5;
+            max-height: 200px; overflow-y: auto; word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -212,14 +214,8 @@
     </div>
 
     <div class="info-card">
-        <div class="card-title"><i class="fas fa-calendar-check"></i> Kaza Namazları Takibi</div>
-        <div class="kaza-grid">
-            <div class="kaza-item"><div class="kaza-name">Sabah</div><div class="kaza-count" id="kz0">0</div><div><button class="kaza-btn" onclick="kazaDegistir(0,1)">+</button> <button class="kaza-btn" onclick="kazaDegistir(0,-1)">-</button></div></div>
-            <div class="kaza-item"><div class="kaza-name">Öğle</div><div class="kaza-count" id="kz1">0</div><div><button class="kaza-btn" onclick="kazaDegistir(1,1)">+</button> <button class="kaza-btn" onclick="kazaDegistir(1,-1)">-</button></div></div>
-            <div class="kaza-item"><div class="kaza-name">İkindi</div><div class="kaza-count" id="kz2">0</div><div><button class="kaza-btn" onclick="kazaDegistir(2,1)">+</button> <button class="kaza-btn" onclick="kazaDegistir(2,-1)">-</button></div></div>
-            <div class="kaza-item"><div class="kaza-name">Akşam</div><div class="kaza-count" id="kz3">0</div><div><button class="kaza-btn" onclick="kazaDegistir(3,1)">+</button> <button class="kaza-btn" onclick="kazaDegistir(3,-1)">-</button></div></div>
-            <div class="kaza-item"><div class="kaza-name">Yatsı</div><div class="kaza-count" id="kz4">0</div><div><button class="kaza-btn" onclick="kazaDegistir(4,1)">+</button> <button class="kaza-btn" onclick="kazaDegistir(4,-1)">-</button></div></div>
-        </div>
+        <div class="card-title" id="takvimBaslik"><i class="fas fa-calendar-days"></i> Önemli Günler Takvimi</div>
+        <div id="takvimIcerik">Günler dinamik hesaplanıyor...</div>
     </div>
 
     <div class="info-card">
@@ -247,19 +243,16 @@
 </div>
 
 <script>
-    // Resmî Diyanet Kıble Açıları Veritabanı (API üzerinden anlık eşleşir)
     const resmiKibleAçilari = {
         "adana": 161, "adiyaman": 166, "afyonkarahisar": 147, "agri": 178, "aksaray": 155, "amasya": 156, "ankara": 151, "antalya": 147, "ardahan": 177, "artvin": 177, "aydin": 139, "balikesir": 140, "bartin": 149, "batman": 171, "bayburt": 171, "bilecik": 144, "bingol": 171, "bitlis": 173, "bolu": 147, "burdur": 146, "bursa": 142, "canakkale": 137, "cankiri": 152, "corum": 154, "denizli": 143, "diyarbakir": 169, "duzce": 146, "edirne": 136, "elazig": 168, "erzincan": 169, "erzurum": 173, "eskisehir": 146, "gaziantep": 167, "giresun": 165, "gumushane": 168, "hakkari": 177, "hatay": 163, "igdir": 181, "isparta": 146, "istanbul": 143, "izmir": 138, "kahramanmaras": 164, "karabuk": 150, "karaman": 154, "kars": 177, "kastamonu": 151, "kayseri": 158, "kilis": 166, "kirikkale": 152, "kirklareli": 137, "kirsehir": 154, "kocaeli": 144, "konya": 151, "kutahya": 144, "malatya": 165, "manisa": 139, "mardin": 171, "mersin": 159, "mugla": 140, "mus": 172, "nevsehir": 156, "nigde": 156, "ordu": 164, "osmaniye": 162, "rize": 169, "sakarya": 145, "samsun": 159, "siirt": 173, "sinop": 156, "sivas": 161, "sanliurfa": 168, "sirnak": 174, "tekirdag": 140, "tokat": 158, "trabzon": 167, "tunceli": 169, "usak": 143, "van": 176, "yalova": 142, "yozgat": 154, "zonguldak": 148
     };
 
-    // Türkçe Sure İsimleri Havuzu (114 Sure Sıralı ve Tamamen Türkçe Olarak Senkronize)
     const turkceSureIsimleri = ["Fâtiha","Bakara","Âl-i İmrân","Nisâ","Mâide","En'âm","A'râf","Enfâl","Tevbe","Yûnus","Hûd","Yûsuf","Ra'd","İbrâhîm","Hicr","Nahl","İsrâ","Kehf","Meryem","Tâhâ","Enbiyâ","Hac","Mü'minûn","Nûr","Furkan","Şuarâ","Neml","Kasas","Ankebût","Rûm","Lokmân","Secde","Ahzâb","Sebe'","Fâtır","Yâsîn","Sâffât","Sâd","Zümer","Mü'min","Fussilet","Şûrâ","Zuhruf","Duhân","Câsiye","Ahkâf","Muhammed","Fetih","Hucurât","Kâf","Zâriyât","Tûr","Necm","Kamer","Rahmân","Vâkıa","Hadîd","Mücâdele","Haşr","Mümtehine","Saf","Cuma","Munâfikûn","Teğâbün","Talâk","Tahrîm","Mülk","Kalem","Hâkka","Meâric","Nûh","Cin","Müzzemmil","Müddessir","Kıyâme","İnsân","Mürselât","Nebe'","Nâziât","Abese","Tekvîr","İnfitâr","Mutaffifîn","İnşikâk","Burûc","Târık","A'lâ","Gâşiye","Fecr","Beled","Şems","Leyl","Duha","İnşirâh","Tîn","Alak","Kadr","Beyyine","Zilzâl","Âdiyât","Kâria","Tekâsür","Asr","Hümeze","Fîl","Kureyş","Mâûn","Kevser","Kâfirûn","Nasr","Mesed","İhlâs","Felak","Nâs"];
 
     let aktifVakitler = [];
     const vakitIsimleri = ["İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı"];
     let zikirSayisi = parseInt(localStorage.getItem('zikirAdet')) || 0;
-    let kazaNamazlari = JSON.parse(localStorage.getItem('kazaNamazlari')) || [0, 0, 0, 0, 0];
-    let 	populerSalavatlar = [];
+    let populerSalavatlar = [];
 
     function toggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -270,7 +263,6 @@
     }
 
     async function ilkKurulumVerileriniYukle() {
-        // Şehir seçimi yükleme
         try {
             const iller = ["Adana","Adiyaman","Afyonkarahisar","Agri","Aksaray","Amasya","Ankara","Antalya","Ardahan","Artvin","Aydin","Balikesir","Bartin","Batman","Bayburt","Bilecik","Bingol","Bitlis","Bolu","Burdur","Bursa","Canakkale","Cankiri","Corum","Denizli","Diyarbakir","Duzce","Edirne","Elazig","Erzincan","Erzurum","Eskisehir","Gaziantep","Giresun","Gumushane","Hakkari","Hatay","Igdir","Isparta","Istanbul","Izmir","Kahramanmaras","Karabuk","Karaman","Kars","Kastamonu","Kayseri","Kilis","Kirikkale","Kirklareli","Kirsehir","Kocaeli","Konya","Kutahya","Malatya","Manisa","Mardin","Mersin","Mugla","Mus","Nevsehir","Nigde","Ordu","Osmaniye","Rize","Sakarya","Samsun","Siirt","Sinop","Sivas","Sanliurfa","Sirnak","Tekirdag","Tokat","Trabzon","Tunceli","Usak","Van","Yalova","Yozgat","Zonguldak"];
             const sel = document.getElementById('citySelect');
@@ -281,33 +273,28 @@
             if(hafizadakiSehir) { sel.value = hafizadakiSehir; vakitleriGetir(); kibleAçisiHesapla(); }
         } catch(e){}
 
-        // 114 Sure Listesini dropdownda tamamen TÜRKÇE isimlerle doldurma
         const sSel = document.getElementById('sureSelect');
         sSel.innerHTML = '<option value="">Okumak İstediğiniz Sureyi Seçin...</option>';
         turkceSureIsimleri.forEach((sureAd, index) => {
-            let o = document.createElement('option');
-            o.value = index + 1;
-            o.text = `${index + 1}. ${sureAd} Suresi`;
-            sSel.add(o);
+            let o = document.createElement('option'); o.value = index + 1; o.text = `${index + 1}. ${sureAd} Suresi`; sSel.add(o);
         });
 
-        // 30 Popüler Salavat Listesini Dinamik Olarak Yapılandırma
         SalavatHavuzunuYukle();
+        miladiTakvimOlustur();
     }
 
     function SalavatHavuzunuYukle() {
         populerSalavatlar = [
             { ad: "1. Salavat-ı Şerife (Kısa)", okunus: "Allahümme salli alâ seyyidinâ Muhammedin ve alâ âli seyyidinâ Muhammed.", anlam: "Allah'ım, Efendimiz Muhammed'e ve onun aline salat ve selam eyle." },
             { ad: "2. Salat-ı Münciye (Tüncina)", okunus: "Allahümme salli alâ seyyidinâ Muhammedin salâten tüncînâ bihâ min cemî'il-ehvâli vel-âfât...", anlam: "Allah'ım! Efendimiz Muhammed'e öyle bir salat et ki, onunla bizi tüm korku ve afetlerden kurtar." },
-            { ad: "3. Salat-ı Tefrîciye (Nâriye)", okunus: "Allahümme salli salâten kâmileten ve sellim selâmen tâmmen alâ seyyidinâ Muhammedinillezî tenhallü bihil-ukad...", anlam: "Allah'ım, kendisiyle düğümlerin çözüldüğü Efendimiz Muhammed'e kamil bir salat ve tam bir selam eyle." },
+            { ad: "3. Salat-ı Tefrîciye (Nâriye)", okunus: "Allahümme salli salâten kâmileten ve sellim selâmen tâmmen alâ seyyidinâ Muhammedinillezî tenhallü bihil-ukad...", anlam: "Allah'ım, kendisiyle düğümlerin çözüldüğü Efendimiz Muhammed'e kamil bir salat... " },
             { ad: "4. Salat-ı Fatih", okunus: "Allahümme salli alâ seyyidinâ Muhammedinil-fâtihı limâ uglika vel-hâtimi limâ sebeka...", anlam: "Kapalı kapıları açan, geçmiş peygamberlerin sonuncusu olan Efendimize salat olsun." },
-            { ad: "5. Salat-ı İbrahimiyye (Namaz Salavatı)", okunus: "Allahümme salli alâ Muhammedin ve alâ âli Muhammed; kemâ salleyte alâ İbrâhîme...", anlam: "Allah'ım! İbrahim'e ve aline salat ettiğin gibi Muhammed'e ve aline de salat eyle." },
+            { ad: "5. Salat-ı İbrahimiyye", okunus: "Allahümme salli alâ Muhammedin ve alâ âli Muhammed; kemâ salleyte alâ İbrâhîme...", anlam: "Allah'ım! İbrahim'e salat ettiğin gibi Muhammed'e ve aline de salat eyle." },
             { ad: "6. Salat-ı Bariciye", okunus: "Allahümme salli alâ seyyidinâ Muhammedin bahri envârike ve ma'dini esrârik...", anlam: "Nur denizlerinin denizi, sırlarının madeni olan Efendimiz Muhammed'e salat olsun." },
-            { ad: "7. Salat-ı Şifâ (Tıbbu'l-Kulûb)", okunus: "Allahümme salli alâ seyyidinâ Muhammedin tıbbil-kulûbi ve devâihâ ve âfiyetil-ebdâni...", anlam: "Kalplerin tıbbı ve devası, bedenlerin afiyeti ve şifası olan Muhammed'e salat eyle." },
+            { ad: "7. Salat-ı Şifâ", okunus: "Allahümme salli alâ seyyidinâ Muhammedin tıbbil-kulûbi ve devâihâ ve âfiyetil-ebdâni...", anlam: "Kalplerin tıbbı ve devası, bedenlerin afiyeti ve şifası olan Muhammed'e salat eyle." },
             { ad: "8. Salat-ı Ümmî", okunus: "Allahümme salli alâ seyyidinâ Muhammedinin-nebiyyil-ümmiyyi ve alâ âlihî ve sahbihî ve sellim.", anlam: "Ümmi olan Nebi Efendimiz Muhammed'e, aline ve ashabına salat ve selam olsun." },
             { ad: "9. Salat-ı Azîziye", okunus: "Allahümme salli alâ seyyidinâ Muhammedin bi-adedi külli dâin ve devâin...", anlam: "Her dert ve deva adedince Efendimiz Muhammed'e salat ve selam olsun." },
             { ad: "10. Salat-ı Mecmû'a", okunus: "Allahümme salli alâ seyyidinâ Muhammedin ve alâ âlihi salâten tezinü el-ardî dâimen...", anlam: "Yeryüzü ağırlığınca sürekli devam eden kutsal salat Efendimize olsun." },
-            // İnternet akış optimizasyonlu 30 sıralı kalıp şablon yapısı
             { ad: "11. Cezallahu Anna Salavatı", okunus: "Cezâllâhü annâ Muhammeden mâ hüve ehlüh.", anlam: "Allah, Muhammed'i bizim adımıza layık olduğu şekilde mükafatlandırsın." },
             { ad: "12. Salat-ı Kemâliye", okunus: "Allahümme salli ve sellim ve bârik alâ seyyidinâ Muhammedin ve alâ âlihî kemâ lâ nihâyete li-kemâlik...", anlam: "Kemalinin nihayeti olmadığı gibi Efendimiz Muhammed'e de sınırsız salat olsun." },
             { ad: "13. Salat-ı Melevân", okunus: "Allahümme salli alâ seyyidinâ Muhammedin kaza'l-melevân ve teâkaba'l-asrayn...", anlam: "Gece ve gündüz yer değiştirdikçe Efendimiz Muhammed'e salat eyle." },
@@ -355,7 +342,6 @@
         kibleAçisiHesapla();
     }
 
-    // Doğrulanan Kıble Hesabı
     function kibleAçisiHesapla() {
         const city = document.getElementById('citySelect').value; if(!city) return;
         document.getElementById('kibleSehir').innerText = city.toUpperCase();
@@ -369,7 +355,12 @@
         const temizSehir = apiSehirFormatla(city);
         document.getElementById('status').innerHTML = `<i class="fas fa-spinner fa-spin"></i> Vakitler alınıyor...`;
         try {
-            const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${temizSehir}&country=Turkey&method=13`);
+            // CORS ve HTTPS engeli için ek güvenlik/istek baslık tanımları eklendi, method=12 (Diyanet) olarak güncellendi.
+            const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${temizSehir}&country=Turkey&method=12`, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
+            if(!response.ok) throw new Error("Ağ hatası");
             const res = await response.json(); const t = res.data.timings;
             document.getElementById('hicriTr').innerText = `${res.data.date.hijri.day} ${res.data.date.hijri.month.ar} ${res.data.date.hijri.year} (Hicri)`;
             
@@ -377,31 +368,67 @@
             aktifVakitler.forEach((time, i) => { document.getElementById('vt' + i).innerText = time; });
             document.getElementById('status').innerHTML = `<i class="fas fa-check-circle" style="color:var(--accent)"></i> ${city.toUpperCase()} güncel.`;
             hesaplaKalanSure();
-        } catch (e) { document.getElementById('status').innerHTML = `<i class="fas fa-exclamation-triangle"></i> Bağlantı hatası!`; }
+        } catch (e) { 
+            console.error(e);
+            document.getElementById('status').innerHTML = `<i class="fas fa-exclamation-triangle"></i> Bağlantı veya CORS hatası!`; 
+        }
     }
 
-    // Esmaül Hüsna ve Günlük Akışların Türkçe Okunuş + Detaylı Anlam ile İnternetten Canlı Çekilmesi
+    function miladiTakvimOlustur() {
+        const tAlan = document.getElementById('takvimIcerik');
+        const tBaslik = document.getElementById('takvimBaslik');
+        const simdi = new Date();
+        tBaslik.innerHTML = `<i class="fas fa-calendar-days"></i> Önemli Günler Takvimi (${simdi.getFullYear()})`;
+
+        const sablonGunler = [
+            { ad: "Yılbaşı Tatili", m: 1, d: 1 }, { ad: "3 Aylar Başlangıcı", m: 1, d: 23 }, { ad: "Regaib Kandili", m: 1, d: 26 },
+            { ad: "Mirac Kandili", m: 2, d: 14 }, { ad: "Berat Kandili", m: 3, d: 3 }, { ad: "Çanakkale Zaferi Anma", m: 3, d: 18 },
+            { ad: "Ramazan-ı Şerif Başlangıcı", m: 3, d: 20 }, { ad: "Kadir Gecesi", m: 4, d: 15 }, { ad: "Ramazan Bayramı", m: 4, d: 20 },
+            { ad: "23 Nisan Ulusal Egemenlik Bayramı", m: 4, d: 23 }, { ad: "1 Mayıs Emek Bayramı", m: 5, d: 1 }, { ad: "19 Mayıs Gençlik ve Spor Bayramı", m: 5, d: 19 },
+            { ad: "Kurban Bayramı Arifesi", m: 6, d: 26 }, { ad: "Kurban Bayramı", m: 6, d: 27 }, { ad: "15 Temmuz Demokrasi Bayramı", m: 7, d: 15 }, 
+            { ad: "30 Ağustos Zafer Bayramı", m: 8, d: 30 }, { ad: "Mevlid Kandili", m: 9, d: 15 }, { ad: "29 Ekim Cumhuriyet Bayramı", m: 10, d: 29 }
+        ];
+
+        let sonuclar = [];
+        const bugunSifir = new Date(simdi.getFullYear(), simdi.getMonth(), simdi.getDate());
+
+        sablonGunler.forEach(g => {
+            let y = simdi.getFullYear();
+            let hedef = new Date(y, g.m - 1, g.d);
+            if (hedef < bugunSifir) { y++; hedef = new Date(y, g.m - 1, g.d); }
+            const kalan = Math.ceil((hedef - bugunSifir) / (1000 * 60 * 60 * 24));
+            sonuclar.push({ ad: g.ad, sira: kalan, tarihText: `${g.d}.${g.m}.${y}` });
+        });
+
+        sonuclar.sort((a,b) => a.sira - b.sira);
+        
+        let html = "";
+        sonuclar.slice(0, 8).forEach(x => { 
+            html += `<div class="takvim-row"><div><b>${x.ad}</b> <span style="opacity:0.5; font-size:11px;">(${x.tarihText})</span></div><span class="takvim-kalan">${x.sira === 0 ? 'Bugün' : x.sira + ' gün kaldı'}</span></div>`;
+        });
+        tAlan.innerHTML = html;
+    }
+
     async function gunlukUzakVerileriCek() {
         const gununIndeksi = new Date().getDate();
-
-        // 1. Türkçe Anlamlı ve Orijinal Ayet Çekimi
         try {
-            const aRes = await fetch(`https://api.alquran.cloud/v1/ayah/${gununIndeksi + 100}/tr.diyanet`);
+            const aRes = await fetch(`https://api.alquran.cloud/v1/ayah/${gununIndeksi + 100}/tr.diyanet`, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
             const aData = await aRes.json();
             document.getElementById('ayetText').innerText = `“${aData.data.text}”`;
             document.getElementById('ayetKaynak').innerText = `${turkceSureIsimleri[aData.data.surah.number - 1]} Suresi, ${aData.data.numberInSurah}. Ayet`;
         } catch(e) { document.getElementById('ayetText').innerText = "“Şüphesiz namaz, müminler üzerine belirli vakitlere bağlanmış bir farzdır.” (Nisâ, 103)"; }
 
-        // 2. Esmaül Hüsna - Tam Türkçe Karşılığı ve Derin Anlamıyla Çekim
         try {
-            const eRes = await fetch(`https://api.aladhan.com/v1/asmaAlHusna/${(gununIndeksi % 99) + 1}`);
-            const eData = await eRes.json();
-            const esmaObj = eData.data[0];
-            
-            document.getElementById('esmaArab').innerText = esmaObj.name; // Orijinal Arapça Yazım Hattı
-            document.getElementById('esmaTr').innerText = esmaObj.transliteration; // Türkçe Okunuşu
-            
-            // İngilizce anlam yerine kullanıcının anlayacağı net Türkçe kelime karşılığını internetten türetme
+            const eRes = await fetch(`https://api.aladhan.com/v1/asmaAlHusna/${(gununIndeksi % 99) + 1}`, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
+            const eData = await eRes.json(); const esmaObj = eData.data[0];
+            document.getElementById('esmaArab').innerText = esmaObj.name;
+            document.getElementById('esmaTr').innerText = esmaObj.transliteration;
             const trManalar = {
                 "Ar-Rahman": "Bağışlayan, esirgeyen, dünyada her mahlukata merhamet eden.",
                 "Ar-Rahim": "Ahirette sadece müminlere sonsuz merhamet ve ihsanda bulunan.",
@@ -409,18 +436,15 @@
                 "Al-Quddus": "Her türlü eksiklikten, kusurdan ve noksanlıktan tamamen münezzeh olan.",
                 "As-Salam": "Kullarını tehlikelerden esenliğe çıkaran, barış ve selametin kaynağı."
             };
-            document.getElementById('esmaAnlam').innerText = trManalar[esmaObj.transliteration] || `Yüce Allah'ın sonsuz kudretini, azametini ve rızasını temsil eden mübarek sıfatı (${esmaObj.en.meaning}).`;
+            document.getElementById('esmaAnlam').innerText = trManalar[esmaObj.transliteration] || `Yüce Allah'ın sonsuz kudretini temsil eden mübarek sıfatı (${esmaObj.en.meaning}).`;
         } catch(e) { 
-            document.getElementById('esmaArab').innerText = "الله"; 
-            document.getElementById('esmaTr').innerText = "Allah";
+            document.getElementById('esmaArab').innerText = "الله"; document.getElementById('esmaTr').innerText = "Allah";
             document.getElementById('esmaAnlam').innerText = "Eşi benzeri olmayan, her şeyin tek yaratıcısı.";
         }
 
-        // 3. Hadis Akışı
         try {
             const hadisler = [
-                "Namaz dinin direğidir.", 
-                "Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",
+                "Namaz dinin direğidir.", "Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",
                 "Hakiki müslüman, elinden ve dilinden diğer insanların güvende olduğu kimsedir.",
                 "Sizin en hayırlınız, ahlakı en güzel olanınızdır."
             ];
@@ -429,17 +453,16 @@
         } catch(e){}
     }
 
-    // Sure İçeriğinin Orijinal Kur'an Sıralamasına Göre Getirilmesi
     async function sureTamEkranAc() {
-        const sureNo = document.getElementById('sureSelect').value;
-        if(!sureNo) { alert("Lütfen bir sure seçiniz."); return; }
+        const sureNo = document.getElementById('sureSelect').value; if(!sureNo) { alert("Lütfen bir sure seçiniz."); return; }
         document.getElementById('modalSureAdi').innerText = "Sure Yükleniyor...";
         document.getElementById('modalSureIcerik').innerHTML = `<p style='text-align:center; padding:20px;'><i class='fas fa-circle-notch fa-spin'></i> Ayetler indiriliyor...</p>`;
         document.getElementById('sureModal').style.display = "block";
         try {
-            // Ayetlerin sıralı bir biçimde orijinal Kur'an akışıyla çekilmesi
-            const arRes = await fetch(`https://api.alquran.cloud/v1/surah/${sureNo}`); const arData = await arRes.json();
-            const trRes = await fetch(`https://api.alquran.cloud/v1/surah/${sureNo}/tr.diyanet`); const trData = await trRes.json();
+            const arRes = await fetch(`https://api.alquran.cloud/v1/surah/${sureNo}`, { method: 'GET', headers: { 'Accept': 'application/json' } }); 
+            const arData = await arRes.json();
+            const trRes = await fetch(`https://api.alquran.cloud/v1/surah/${sureNo}/tr.diyanet`, { method: 'GET', headers: { 'Accept': 'application/json' } }); 
+            const trData = await trRes.json();
             let icerikHtml = "";
             for(let i=0; i < arData.data.ayahs.length; i++) {
                 icerikHtml += `<div class="sure-ayet-box"><div class="sure-ar">${arData.data.ayahs[i].text} (${i+1})</div><div class="sure-tr"><b>${i+1}. Ayet Meali:</b> ${trData.data.ayahs[i].text}</div></div>`;
@@ -450,11 +473,8 @@
     }
     function sureTamEkranKapat() { document.getElementById('sureModal').style.display = "none"; }
 
-    // Sayaç ve Kaza İşlemleri
     function zikirArttir() { zikirSayisi++; document.getElementById('zikirAdet').innerText = zikirSayisi; localStorage.setItem('zikirAdet', zikirSayisi); }
     function zikirSifirla() { zikirSayisi = 0; document.getElementById('zikirAdet').innerText = zikirSayisi; localStorage.setItem('zikirAdet', zikirSayisi); }
-    function kazaArayuzGuncelle() { kazaNamazlari.forEach((adet, i) => { document.getElementById('kz' + i).innerText = adet; }); }
-    function kazaDegistir(index, miktar) { kazaNamazlari[index] = Math.max(0, kazaNamazlari[index] + miktar); localStorage.setItem('kazaNamazlari', JSON.stringify(kazaNamazlari)); kazaArayuzGuncelle(); }
 
     function hesaplaKalanSure() {
         if (aktifVakitler.length === 0) return;
@@ -465,9 +485,9 @@
         vakitIsimleri.forEach((_, i) => document.getElementById('c'+i).classList.remove('active'));
         document.getElementById('c' + mevcutVakitIndex).classList.add('active');
         document.getElementById('targetVakit').innerText = vakitIsimleri[hedonVakitIndex] + " Kalan";
-        let hedefTarih = new Date(vakitTarihleri[hedonVakitIndex]); if (hedefTarih < simdi) hedefTarih.setDate(hedefTarih.getDate() + 1);
+        let hedonTarih = new Date(vakitTarihleri[hedonVakitIndex]); if (hedonTarih < simdi) hedonTarih.setDate(hedonTarih.getDate() + 1);
         let baslangicTarih = new Date(vakitTarihleri[mevcutVakitIndex]); if (baslangicTarih > simdi && mevcutVakitIndex === 5) baslangicTarih.setDate(baslangicTarih.getDate() - 1);
-        const fark = hedefTarih - simdi; const toplamSure = hedefTarih - baslangicTarih;
+        const fark = hedonTarih - simdi; const toplamSure = hedonTarih - baslangicTarih;
         const yuzde = Math.max(0, Math.min(100, ((toplamSure - fark) / toplamSure) * 100));
         document.getElementById('vakitProgress').style.width = yuzde + "%";
         const saat = Math.floor(fark / 3600000); const dak = Math.floor((fark % 3600000) / 60000); const san = Math.floor((fark % 60000) / 1000);
@@ -483,7 +503,6 @@
         const kaydedilenTema = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', kaydedilenTema);
         document.getElementById('zikirAdet').innerText = zikirSayisi;
-        kazaArayuzGuncelle();
 
         const d = new Date(); document.getElementById('bugunTr').innerText = d.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         
