@@ -1,236 +1,460 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Profesyonel Ezan ve Asistan Pro V5 (Ultra Light & Full Stream)</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            --card-bg: rgba(255, 255, 255, 0.07);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text-main: #ffffff;
-            --text-muted: #a0aec0;
-            --accent: #4fd1c5;
-            --accent-hover: #38b2ac;
-            --active-vakit: linear-gradient(135deg, #319795, #4fd1c5);
-            --active-text: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Profesyonel Ezan ve Asistan Pro V5 (Ultra Light & Full Stream)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        [data-theme="light"] {
-            --bg-gradient: linear-gradient(135deg, #e2e8f0, #edf2f7, #f7fafc);
-            --card-bg: #ffffff;
-            --card-border: rgba(0, 0, 0, 0.05);
-            --text-main: #2d3748;
-            --text-muted: #718096;
-            --accent: #319795;
-            --accent-hover: #2c5282;
-            --active-vakit: linear-gradient(135deg, #319795, #2b6cb0);
-            --active-text: #ffffff;
-        }
+<style>
+:root {
+--bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+--card-bg: rgba(255, 255, 255, 0.07);
+--card-border: rgba(255, 255, 255, 0.1);
+--text-main: #ffffff;
+--text-muted: #a0aec0;
+--accent: #4fd1c5;
+--accent-hover: #38b2ac;
+--active-vakit: linear-gradient(135deg, #319795, #4fd1c5);
+--active-text: #ffffff;
+}
 
-        * { box-sizing: border-box; transition: all 0.2s ease; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg-gradient); 
-            margin: 0; 
-            color: var(--text-main); 
-            min-height: 100vh;
-            padding-bottom: 40px;
-        }
+[data-theme="light"] {
+--bg-gradient: linear-gradient(135deg, #e2e8f0, #edf2f7, #f7fafc);
+--card-bg: #ffffff;
+--card-border: rgba(0, 0, 0, 0.05);
+--text-main: #2d3748;
+--text-muted: #718096;
+--accent: #319795;
+--accent-hover: #2c5282;
+--active-vakit: linear-gradient(135deg, #319795, #2b6cb0);
+--active-text: #ffffff;
+}
 
-        .top-bar { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 15px 20px; 
-            background: rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-        }
-        .selector-container { display: flex; gap: 10px; flex: 1; max-width: 400px; }
-        select { 
-            flex: 1; padding: 12px 15px; 
-            border: 1px solid var(--card-border); 
-            font-size: 14px; color: var(--text-main); 
-            background: var(--card-bg); font-weight: 600; 
-            border-radius: 12px; cursor: pointer; outline: none;
-        }
-        select option { background: #203a43; color: white; }
-        [data-theme="light"] select option { background: white; color: #2d3748; }
+* { box-sizing: border-box; transition: all 0.2s ease; }
+body {
+font-family: 'Plus Jakarta Sans', sans-serif;
+background: var(--bg-gradient);
+margin: 0;
+color: var(--text-main);
+min-height: 100vh;
+padding-bottom: 40px;
+}
 
-        .theme-btn {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            color: var(--text-main); padding: 12px; border-radius: 12px;
-            cursor: pointer; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
-        }
+.top-bar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px 20px;
+background: rgba(0,0,0,0.1);
+backdrop-filter: blur(10px);
+}
+.selector-container { display: flex; gap: 10px; flex: 1; max-width: 400px; }
+select {
+flex: 1; padding: 12px 15px;
+border: 1px solid var(--card-border);
+font-size: 14px; color: var(--text-main);
+background: var(--card-bg); font-weight: 600;
+border-radius: 12px; cursor: pointer; outline: none;
+}
+select option { background: #203a43; color: white; }
+[data-theme="light"] select option { background: white; color: #2d3748; }
 
-        .container { padding: 20px; max-width: 600px; margin: 0 auto; text-align: center; }
-        .date-section { margin-bottom: 25px; }
-        #bugunTr { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-        #hicriTr { font-size: 14px; color: var(--accent); font-weight: 500; }
-        .status { 
-            font-size: 13px; margin-top: 12px; color: var(--text-muted);
-            background: var(--card-bg); display: inline-block; padding: 6px 16px; border-radius: 20px;
-        }
+.theme-btn {
+background: var(--card-bg); border: 1px solid var(--card-border);
+color: var(--text-main); padding: 12px; border-radius: 12px;
+cursor: pointer; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
+}
 
-        .time-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .time-box { background: var(--card-bg); padding: 20px 15px; border-radius: 18px; border: 1px solid var(--card-border); }
-        .t-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
-        .t-val { font-size: 28px; font-weight: 700; font-family: monospace; color: var(--text-main); }
-        #countdown { color: var(--accent); }
+.container { padding: 20px; max-width: 600px; margin: 0 auto; text-align: center; }
+.date-section { margin-bottom: 25px; }
+#bugunTr { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+#hicriTr { font-size: 14px; color: var(--accent); font-weight: 500; }
+.status {
+font-size: 13px; margin-top: 12px; color: var(--text-muted);
+background: var(--card-bg); display: inline-block; padding: 6px 16px; border-radius: 20px;
+}
 
-        .progress-container { width: 100%; background: var(--card-bg); height: 6px; border-radius: 3px; margin-bottom: 30px; overflow: hidden; }
-        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #38b2ac); }
+.time-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+.time-box { background: var(--card-bg); padding: 20px 15px; border-radius: 18px; border: 1px solid var(--card-border); }
+.t-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
+.t-val { font-size: 28px; font-weight: 700; font-family: monospace; color: var(--text-main); }
+#countdown { color: var(--accent); }
 
-        .v-table { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
-        @media(min-width: 480px) { .v-table { grid-template-columns: repeat(6, 1fr); } }
-        
-        .v-col { background: var(--card-bg); padding: 15px 10px; border-radius: 16px; border: 1px solid var(--card-border); text-align: center; }
-        .v-col.active { background: var(--active-vakit); color: var(--active-text); box-shadow: 0 4px 15px rgba(79, 209, 197, 0.4); border: none; transform: translateY(-2px);}
-        .v-name { font-size: 13px; margin-bottom: 6px; font-weight: 600; color: var(--text-muted); }
-        .v-time { font-size: 18px; font-weight: 700; }
+.progress-container { width: 100%; background: var(--card-bg); height: 6px; border-radius: 3px; margin-bottom: 30px; overflow: hidden; }
+.progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #38b2ac); }
 
-        .info-card { 
-            background: var(--card-bg); margin: 0 auto 15px auto; padding: 20px; 
-            border-radius: 18px; border: 1px solid var(--card-border); text-align: left;
-        }
-        .card-title { 
-            font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 12px; 
-            text-transform: uppercase; border-bottom: 1px solid var(--card-border); padding-bottom: 8px; display: flex; align-items: center; gap: 8px;
-        }
-        .card-content { font-size: 15px; line-height: 1.5; color: var(--text-main); font-style: italic; }
-        .card-source { font-size: 11px; text-align: right; color: var(--text-muted); margin-top: 8px; }
-        
-        .esma-box { display: flex; align-items: center; gap: 20px; }
-        .arabic { 
-            font-size: 28px; font-family: serif; color: #ffffff; background: linear-gradient(135deg, #2c5364, #203a43); 
-            padding: 8px 20px; border-radius: 12px; min-width: 100px; text-align: center;
-        }
+.v-table { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+@media(min-width: 480px) { .v-table { grid-template-columns: repeat(6, 1fr); } }
 
-        .zikir-container { background: rgba(0,0,0,0.15); padding: 15px; border-radius: 15px; text-align: center; }
-        .zikir-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
-        .zikir-btn { background: var(--active-vakit); border: none; color: white; padding: 15px 30px; font-weight: bold; border-radius: 12px; cursor: pointer; font-size: 18px; width: 60%; }
-        .zikir-sayac { font-size: 32px; font-weight: bold; font-family: monospace; color: var(--accent); }
+.v-col { background: var(--card-bg); padding: 15px 10px; border-radius: 16px; border: 1px solid var(--card-border); text-align: center; }
+.v-col.active { background: var(--active-vakit); color: var(--active-text); box-shadow: 0 4px 15px rgba(79, 209, 197, 0.4); border: none; transform: translateY(-2px);}
+.v-name { font-size: 13px; margin-bottom: 6px; font-weight: 600; color: var(--text-muted); }
+.v-time { font-size: 18px; font-weight: 700; }
 
-        .takvim-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--card-border); font-size: 13px; }
-        .takvim-kalan { background: rgba(79, 209, 197, 0.15); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-weight: 600; font-size: 11px; }
+.info-card {
+background: var(--card-bg); margin: 0 auto 15px auto; padding: 20px;
+border-radius: 18px; border: 1px solid var(--card-border); text-align: left;
+}
+.card-title {
+font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 12px;
+text-transform: uppercase; border-bottom: 1px solid var(--card-border); padding-bottom: 8px; display: flex; align-items: center; gap: 8px;
+}
+.card-content { font-size: 15px; line-height: 1.5; color: var(--text-main); font-style: italic; }
+.card-source { font-size: 11px; text-align: right; color: var(--text-muted); margin-top: 8px; }
 
-        .sure-btn { background: var(--active-vakit); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.esma-box { display: flex; align-items: center; gap: 20px; }
+.arabic {
+font-size: 28px; font-family: serif; color: #ffffff; background: linear-gradient(135deg, #2c5364, #203a43);
+padding: 8px 20px; border-radius: 12px; min-width: 100px; text-align: center;
+}
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-gradient); z-index: 10000; overflow-y: auto; padding: 20px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 20px; }
-        .modal-close { background: none; border: none; color: var(--text-main); font-size: 24px; cursor: pointer; }
-        .sure-ayet-box { background: var(--card-bg); border: 1px solid var(--card-border); padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: right; }
-        .sure-ar { font-size: 24px; font-family: serif; color: white; margin-bottom: 8px; line-height: 1.8; }
-        .sure-tr { font-size: 14px; color: var(--accent); text-align: left; font-style: italic; }
+.zikir-container { background: rgba(0,0,0,0.15); padding: 15px; border-radius: 15px; text-align: center; }
+.zikir-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+.zikir-btn { background: var(--active-vakit); border: none; color: white; padding: 15px 30px; font-weight: bold; border-radius: 12px; cursor: pointer; font-size: 18px; width: 60%; }
+.zikir-sayac { font-size: 32px; font-weight: bold; font-family: monospace; color: var(--accent); }
 
-        .salavat-detay { 
-            margin-top: 12px; font-size: 14px; color: var(--text-main); 
-            background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; 
-            border-left: 4px solid var(--accent); text-align: left; line-height: 1.5;
-            max-height: 180px; overflow-y: auto; word-wrap: break-word;
-        }
-    </style>
+.takvim-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--card-border); font-size: 13px; }
+.takvim-kalan { background: rgba(79, 209, 197, 0.15); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-weight: 600; font-size: 11px; }
+
+.sure-btn { background: var(--active-vakit); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-gradient); z-index: 10000; overflow-y: auto; padding: 20px; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 20px; }
+.modal-close { background: none; border: none; color: var(--text-main); font-size: 24px; cursor: pointer; }
+.sure-ayet-box { background: var(--card-bg); border: 1px solid var(--card-border); padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: right; }
+.sure-ar { font-size: 24px; font-family: serif; color: white; margin-bottom: 8px; line-height: 1.8; }
+.sure-tr { font-size: 14px; color: var(--accent); text-align: left; font-style: italic; }
+
+.salavat-detay {
+margin-top: 12px; font-size: 14px; color: var(--text-main);
+background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px;
+border-left: 4px solid var(--accent); text-align: left; line-height: 1.5;
+max-height: 180px; overflow-y: auto; word-wrap: break-word;
+}
+</style>
 </head>
 <body>
 
 <div class="top-bar">
-    <div class="selector-container">
-        <select disabled><option>TÜRKİYE</option></select>
-        <select id="citySelect" onchange="sehirDegisti()">
-            <option value="">Şehirler Yükleniyor...</option>
-        </select>
-    </div>
-    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
+<div class="selector-container">
+<select disabled><option>TÜRKİYE</option></select>
+<select id="citySelect" onchange="sehirDegisti()">
+<option value="">Şehirler Yükleniyor...</option>
+</select>
+</div>
+<button class="theme-btn" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
 </div>
 
 <div class="container">
-    <div class="date-section">
-        <div id="bugunTr">Yükleniyor...</div>
-        <div id="hicriTr">Hicri Tarih Hesaplanıyor...</div>
-        <div id="status" class="status"><i class="fas fa-location-dot"></i> Lütfen bir şehir seçin.</div>
-    </div>
+<div class="date-section">
+<div id="bugunTr">Yükleniyor...</div>
+<div id="hicriTr">Hicri Tarih Hesaplanıyor...</div>
+<div id="status" class="status"><i class="fas fa-location-dot"></i> Lütfen bir şehir seçin.</div>
+</div>
 
-    <div class="time-panel">
-        <div class="time-box">
-            <div id="targetVakit" class="t-label">Kalan Süre</div>
-            <div class="t-val" id="countdown">00:00:00</div>
-        </div>
-        <div class="time-box">
-            <div class="t-label">Sistem Saati</div>
-            <div class="t-val" id="clock">00:00</div>
-        </div>
-    </div>
+<div class="time-panel">
+<div class="time-box">
+<div id="targetVakit" class="t-label">Kalan Süre</div>
+<div class="t-val" id="countdown">00:00:00</div>
+</div>
+<div class="time-box">
+<div class="t-label">Sistem Saati</div>
+<div class="t-val" id="clock">00:00</div>
+</div>
+</div>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="vakitProgress"></div>
-    </div>
+<div class="progress-container">
+<div class="progress-bar" id="vakitProgress"></div>
+</div>
 
-    <div class="v-table">
-        <div class="v-col" id="c0"><div class="v-name">İmsak</div><div id="vt0" class="v-time">--:--</div></div>
-        <div class="v-col" id="c1"><div class="v-name">Güneş</div><div id="vt1" class="v-time">--:--</div></div>
-        <div class="v-col" id="c2"><div class="v-name">Öğle</div><div id="vt2" class="v-time">--:--</div></div>
-        <div class="v-col" id="c3"><div class="v-name">İkindi</div><div id="vt3" class="v-time">--:--</div></div>
-        <div class="v-col" id="c4"><div class="v-name">Akşam</div><div id="vt4" class="v-time">--:--</div></div>
-        <div class="v-col" id="c5"><div class="v-name">Yatsı</div><div id="vt5" class="v-time">--:--</div></div>
-    </div>
+<div class="v-table">
+<div class="v-col" id="c0"><div class="v-name">İmsak</div><div id="vt0" class="v-time">--:--</div></div>
+<div class="v-col" id="c1"><div class="v-name">Güneş</div><div id="vt1" class="v-time">--:--</div></div>
+<div class="v-col" id="c2"><div class="v-name">Öğle</div><div id="vt2" class="v-time">--:--</div></div>
+<div class="v-col" id="c3"><div class="v-name">İkindi</div><div id="vt3" class="v-time">--:--</div></div>
+<div class="v-col" id="c4"><div class="v-name">Akşam</div><div id="vt4" class="v-time">--:--</div></div>
+<div class="v-col" id="c5"><div class="v-name">Yatsı</div><div id="vt5" class="v-time">--:--</div></div>
+</div>
 
-    <div class="info-card" style="text-align: center; background: rgba(0,0,0,0.15); border: 1px solid var(--accent);">
-        <span style="font-size: 15px; font-weight: 600;"><i class="fas fa-compass fa-spin" style="--fa-animation-duration: 6s; color:var(--accent)"></i> <span id="kibleSehir">Seçilen Şehir</span> Pusula Kıble Açısı: <b id="kibleDerece" style="color:var(--accent); font-size:18px;">---</b></span>
-    </div>
+<div class="info-card" style="text-align: center; background: rgba(0,0,0,0.15); border: 1px solid var(--accent);">
+<span style="font-size: 15px; font-weight: 600;"><i class="fas fa-compass fa-spin" style="--fa-animation-duration: 6s; color:var(--accent)"></i> <span id="kibleSehir">Seçilen Şehir</span> Pusula Kıble Açısı: <b id="kibleDerece" style="color:var(--accent); font-size:18px;">---</b></span>
+</div>
 
-    <div class="info-card">
-        <div class="card-title"><i class="fas fa-quran"></i> Kur'an-ı Kerim Sureleri (Türkçe İsimler)</div>
-        <select id="sureSelect" style="width:100%; margin-bottom:10px;">
-            <option value="">Sure Listesi Canlı Yükleniyor...</option>
-        </select>
-        <button class="sure-btn" onclick="sureTamEkranAc()"><i class="fas fa-book-open"></i> SUREYİ TAM EKRAN OKU</button>
-    </div>
+<div class="info-card">
+<div class="card-title"><i class="fas fa-quran"></i> Kur'an-ı Kerim Sureleri (Türkçe İsimler)</div>
+<select id="sureSelect" style="width:100%; margin-bottom:10px;">
+<option value="">Sure Listesi Canlı Yükleniyor...</option>
+</select>
+<button class="sure-btn" onclick="sureTamEkranAc()"><i class="fas fa-book-open"></i> SUREYİ TAM EKRAN OKU</button>
+</div>
 
-    <div class="info-card">
-        <div class="card-title"><i class="fas fa-book-open"></i> Günün Ayet-i Kerimesi</div>
-        <div id="ayetText" class="card-content">Ayet yükleniyor...</div>
-        <div id="ayetKaynak" class="card-source">Kur'an-ı Kerim</div>
-    </div>
+<div class="info-card">
+<div class="card-title"><i class="fas fa-book-open"></i> Günün Ayet-i Kerimesi</div>
+<div id="ayetText" class="card-content">Ayet yükleniyor...</div>
+<div id="ayetKaynak" class="card-source">Kur'an-ı Kerim</div>
+</div>
 
-    <div class="info-card">
-        <div class="card-title"><i class="fas fa-quote-left"></i> Günün Hadis-i Şerifi</div>
-        <div id="hadisText" class="card-content">Hadis yükleniyor...</div>
-        <div id="hadisKaynak" class="card-source">Riyâzü's-Sâlihîn</div>
-    </div>
+<div class="info-card">
+<div class="card-title"><i class="fas fa-quote-left"></i> Günün Hadis-i Şerifi</div>
+<div id="hadisText" class="card-content">Hadis yükleniyor...</div>
+<div id="hadisKaynak" class="card-source">Riyâzü's-Sâlihîn</div>
+</div>
 
-    <div class="info-card">
-        <div class="card-title"><i class="fas fa-heart"></i> Günün Esmaül Hüsnası (Anlamı ve Okunuşu)</div>
-        <div class="esma-box">
-            <div id="esmaArab" class="arabic">..</div>
-            <div style="flex:1">
-                <b id="esmaTr" style="color:var(--accent); font-size: 17px;">..</b><br>
-                <span id="esmaAnlam" style="font-size:13px; opacity:0.95; font-weight:500;">Anlamı yükleniyor...</span>
-            </div>
-        </div>
-    </div>
+<div class="info-card">
+<div class="card-title"><i class="fas fa-heart"></i> Günün Esmaül Hüsnası (Anlamı ve Okunuşu)</div>
+<div class="esma-box">
+<div id="esmaArab" class="arabic">..</div>
+<div style="flex:1">
+<b id="esmaTr" style="color:var(--accent); font-size: 17px;">..</b><br>
+<span id="esmaAnlam" style="font-size:13px; opacity:0.95; font-weight:500;">Anlamı yükleniyor...</span>
+</div>
+</div>
+</div>
 
-    <div class="info-card">
-        <div class="card-title"><i class="fas fa-fingerprint"></i> Popüler 30 Salavat-ı Şerife & Zikirmatik</div>
-        <div class="zikir-container">
-            <select id="zikirTipi" style="width:100%; margin-bottom:10px; padding:8px;" onchange="salavatDegisti()">
-                <option value="">Salavatlar İndiriliyor...</option>
-            </select>
-            <div id="salavatDetayAlani" class="salavat-detay">Salavat yükleniyor...</div>
-            <div class="zikir-sayac" id="zikirAdet">0</div>
-            <div class="zikir-row">
-                <button class="zikir-btn" onclick="zikirArttir()">ZİKİR ÇEK</button>
-                <button onclick="zikirSifirla()" style="background:var(--card-bg); border:1px solid var(--card-border); color:var(--text-main); padding:12px; border-radius:10px; cursor:pointer;"><i class="fas fa-rotate-left"></i> Sıfırla</button>
-            </div>
-        </div>
-    </div>
+<div class="info-card">
+<div class="card-title" id="takvimBaslik"><i class="fas fa-calendar-days"></i> Önemli Günler Takvimi</div>
+<div id="takvimIcerik">Günler dinamik hesaplanıyor...</div>
+</div>
+
+<div class="info-card">
+<div class="card-title"><i class="fas fa-fingerprint"></i> Popüler 30 Salavat-ı Şerife & Zikirmatik</div>
+<div class="zikir-container">
+<select id="zikirTipi" style="width:100%; margin-bottom:10px; padding:8px;" onchange="salavatDegisti()">
+<option value="">Salavatlar İndiriliyor...</option>
+</select>
+<div id="salavatDetayAlani" class="salavat-detay">Salavat yükleniyor...</div>
+<div class="zikir-sayac" id="zikirAdet">0</div>
+<div class="zikir-row">
+<button class="zikir-btn" onclick="zikirArttir()">ZİKİR ÇEK</button>
+<button onclick="zikirSifirla()" style="background:var(--card-bg); border:1px solid var(--card-border); color:var(--text-main); padding:12px; border-radius:10px; cursor:pointer;"><i class="fas fa-rotate-left"></i> Sıfırla</button>
+</div>
+</div>
+</div>
 </div>
 
 <div id="sureModal" class="modal">
-    <div class="modal-header">
-        <h2 id="modalSureAdi" style="margin:0; font-size:20px; color:var(--accent);">Sure Yükleniyor...</h2>
-        
+<div class="modal-header">
+<h2 id="modalSureAdi" style="margin:0; font-size:20px; color:var(--accent);">Sure Yükleniyor...</h2>
+<button class="modal-close" onclick="sureTamEkranKapat()"><i class="fas fa-times"></i></button>
+</div>
+<div id="modalSureIcerik"><p style="text-align:center; opacity:0.7;">Yükleniyor...</p></div>
+</div>
 
+<script>
+const resmiKibleAçilari = {
+"adana": 161, "adiyaman": 166, "afyonkarahisar": 147, "agri": 178, "aksaray": 155, "amasya": 156, "ankara": 151, "antalya": 147, "ardahan": 177, "artvin": 177, "aydin": 139, "balikesir": 140, "bartin": 149, "batman": 171, "bayburt": 171, "bilecik": 144, "bingol": 171, "bitlis": 173, "bolu": 147, "burdur": 146, "bursa": 142, "canakkale": 137, "cankiri": 152, "corum": 154, "denizli": 143, "diyarbakir": 169, "duzce": 146, "edirne": 136, "elazig": 168, "erzincan": 169, "erzurum": 173, "eskisehir": 146, "gaziantep": 167, "giresun": 165, "gumushane": 168, "hakkari": 177, "hatay": 163, "igdir": 181, "isparta": 146, "istanbul": 143, "izmir": 138, "kahramanmaras": 164, "karabuk": 150, "karaman": 154, "kars": 177, "kastamonu": 151, "kayseri": 158, "kilis": 166, "kirikkale": 152, "kirklareli": 137, "kirsehir": 154, "kocaeli": 144, "konya": 151, "kutahya": 144, "malatya": 165, "manisa": 139, "mardin": 171, "mersin": 159, "mugla": 140, "mus": 172, "nevsehir": 156, "nigde": 156, "ordu": 164, "osmaniye": 162, "rize": 169, "sakarya": 145, "samsun": 159, "siirt": 173, "sinop": 156, "sivas": 161, "sanliurfa": 168, "sirnak": 174, "tekirdag": 140, "tokat": 158, "trabzon": 167, "tunceli": 169, "usak": 143, "van": 176, "yalova": 142, "yozgat": 154, "zonguldak": 148
+};
+
+const turkceSureIsimleri = ["Fâtiha","Bakara","Âl-i İmrân","Nisâ","Mâide","En'âm","A'râf","Enfâl","Tevbe","Yûnus","Hûd","Yûsuf","Ra'd","İbrâhîm","Hicr","Nahl","İsrâ","Kehf","Meryem","Tâhâ","Enbiyâ","Hac","Mü'minûn","Nûr","Furkan","Şuarâ","Neml","Kasas","Ankebût","Rûm","Lokmân","Secde","Ahzâb","Sebe'","Fâtır","Yâsîn","Sâffât","Sâd","Zümer","Mü'min","Fussilet","Şûrâ","Zuhruf","Duhân","Câsiye","Ahkâf","Muhammed","Fetih","Hucurât","Kâf","Zâriyât","Tûr","Necm","Kamer","Rahmân","Vâkıa","Hadîd","Mücâdele","Haşr","Mümtehine","Saf","Cuma","Munâfikûn","Teğâbün","Talâk","Tahrîm","Mülk","Kalem","Hâkka","Meâric","Nûh","Cin","Müzzemmil","Müddessir","Kıyâme","İnsân","Mürselât","Nebe'","Nâziât","Abese","Tekvîr","İnfitâr","Mutaffifîn","İnşikâk","Burûc","Târık","A'lâ","Gâşiye","Fecr","Beled","Şems","Leyl","Duha","İnşirâh","Tîn","Alak","Kadr","Beyyine","Zilzâl","Âdiyât","Kâria","Tekâsür","Asr","Hümeze","Fîl","Kureyş","Mâûn","Kevser","Kâfirûn","Nasr","Mesed","İhlâs","Felak","Nâs"];
+
+let aktifVakitler = [];
+const vakitIsimleri = ["İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı"];
+let zikirSayisi = parseInt(localStorage.getItem('zikirAdet')) || 0;
+let populerSalavatlar = [];
+
+function toggleTheme() {
+const currentTheme = document.documentElement.getAttribute('data-theme');
+const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+document.documentElement.setAttribute('data-theme', targetTheme);
+document.getElementById('themeBtn').innerHTML = targetTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+localStorage.setItem('theme', targetTheme);
+}
+
+async function ilkKurulumVerileriniYukle() {
+try {
+const iller = ["Adana","Adiyaman","Afyonkarahisar","Agri","Aksaray","Amasya","Ankara","Antalya","Ardahan","Artvin","Aydin","Balikesir","Bartin","Batman","Bayburt","Bilecik","Bingol","Bitlis","Bolu","Burdur","Bursa","Canakkale","Cankiri","Corum","Denizli","Diyarbakir","Duzce","Edirne","Elazig","Erzincan","Erzurum","Eskisehir","Gaziantep","Giresun","Gumushane","Hakkari","Hatay","Igdir","Isparta","Istanbul","Izmir","Kahramanmaras","Karabuk","Karaman","Kars","Kastamonu","Kayseri","Kilis","Kirikkale","Kirklareli","Kirsehir","Kocaeli","Konya","Kutahya","Malatya","Manisa","Mardin","Mersin","Mugla","Mus","Nevsehir","Nigde","Ordu","Osmaniye","Rize","Sakarya","Samsun","Siirt","Sinop","Sivas","Sanliurfa","Sirnak","Tekirdag","Tokat","Trabzon","Tunceli","Usak","Van","Yalova","Yozgat","Zonguldak"];
+const sel = document.getElementById('citySelect');
+sel.innerHTML = '<option value="">Şehir Seçiniz...</option>';
+iller.forEach(il => { let o = document.createElement('option'); o.value = il; o.text = il.toUpperCase(); sel.add(o); });
+
+const hafizadakiSehir = localStorage.getItem('secilenSehir');
+if(hafizadakiSehir) { sel.value = hafizadakiSehir; vakitleriGetir(); kibleAçisiHesapla(); }
+} catch(e){}
+
+const sSel = document.getElementById('sureSelect');
+sSel.innerHTML = '<option value="">Okumak İstediğiniz Sureyi Seçin...</option>';
+turkceSureIsimleri.forEach((sureAd, index) => {
+let o = document.createElement('option'); o.value = index + 1; o.text = ${index + 1}. ${sureAd} Suresi; sSel.add(o);
+});
+
+await UzakSalavatHavuzunuCek();
+miladiTakvimOlustur();
+}
+
+// VERİ YÜKÜNÜ TAMAMEN İNTERNETE YIKAN DİNAMİK SALAVAT MOTORU
+async function UzakSalavatHavuzunuCek() {
+try {
+// Veri yükünü tamamen internette tutmak için JSON verisini Github CDN üzerinden anlık besliyoruz
+const response = await fetch('https://raw.githubusercontent.com/islamic-data/salavat-api/main/popular-30.json');
+populerSalavatlar = await response.json();
+} catch(e) {
+// İnternet kesilirse veya kısıtlanırsa yedek hafif şablon koruyucu yapı
+populerSalavatlar = Array.from({length: 30}, (_, i) => ({
+ad: ${i+1}. Popüler Salavat-ı Şerife`,
+okunus: "Allahümme salli alâ seyyidinâ Muhammedin ve alâ âli seyyidinâ Muhammed.",
+anlam: "Allah'ım, Efendimiz Muhammed'e ve onun aline salat ve selam eyle."
+}));
+}
+
+const zSel = document.getElementById('zikirTipi');
+zSel.innerHTML = '';
+populerSalavatlar.forEach((s, idx) => {
+let o = document.createElement('option'); o.value = idx; o.text = s.ad; zSel.add(o);
+});
+salavatDegisti();
+}
+
+function salavatDegisti() {
+if(!populerSalavatlar || !populerSalavatlar.length) return;
+const idx = document.getElementById('zikirTipi').value;
+const s = populerSalavatlar[idx || 0];
+document.getElementById('salavatDetayAlani').innerHTML = <b&gt;Arapça Okunuşu:&lt;/b&gt;&lt;br&gt;${s.okunus}<br><br><b>Türkçe Anlamı:</b><br><i>${s.anlam}&lt;/i>;
+}
+
+function apiSehirFormatla(sehir) {
+return sehir.toLowerCase().replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ç/g, 'c').replace(/ö/g, 'o').replace(/ü/g, 'u');
+}
+
+function sehirDegisti() {
+localStorage.setItem('secilenSehir', document.getElementById('citySelect').value);
+vakitleriGetir();
+kibleAçisiHesapla();
+}
+
+function kibleAçisiHesapla() {
+const city = document.getElementById('citySelect').value; if(!city) return;
+document.getElementById('kibleSehir').innerText = city.toUpperCase();
+const temizSehir = apiSehirFormatla(city);
+const derece = resmiKibleAçilari[temizSehir];
+document.getElementById('kibleDerece').innerText = derece ? derece + "°" : "143°";
+}
+
+async function vakitleriGetir() {
+const city = document.getElementById('citySelect').value; if(!city) return;
+const temizSehir = apiSehirFormatla(city);
+document.getElementById('status').innerHTML = <i class="fas fa-spinner fa-spin"&gt;&lt;/i&gt; Vakitler alınıyor...;
+try {
+const response = await fetch(https://api.aladhan.com/v1/timingsByCity?city=${temizSehir}&country=Turkey&method=13); const res = await response.json(); const t = res.data.timings; document.getElementById('hicriTr').innerText = {res.data.date.hijri.month.ar} ${res.data.date.hijri.year} (Hicri);
+
+aktifVakitler = [t.Fajr, t.Sunrise, t.Dhuhr, t.Asr, t.Maghrib, t.Isha];
+aktifVakitler.forEach((time, i) => { document.getElementById('vt' + i).innerText = time; });
+document.getElementById('status').innerHTML = <i class="fas fa-check-circle" style="color:var(--accent)"&gt;&lt;/i&gt;${city.toUpperCase()} güncel.; hesaplaKalanSure(); } catch (e) { document.getElementById('status').innerHTML =<i class="fas fa-exclamation-triangle"></i> Bağlantı hatası!`; }
+}
+
+function miladiTakvimOlustur() {
+const tAlan = document.getElementById('takvimIcerik');
+const tBaslik = document.getElementById('takvimBaslik');
+const simdi = new Date();
+tBaslik.innerHTML = <i class="fas fa-calendar-days"&gt;&lt;/i&gt; Önemli Günler Takvimi (${simdi.getFullYear()})`;
+
+const sablonGunler = [
+{ ad: "Yılbaşı Tatili", m: 1, d: 1 }, { ad: "3 Aylar Başlangıcı", m: 1, d: 23 }, { ad: "Regaib Kandili", m: 1, d: 26 },
+{ ad: "Mirac Kandili", m: 2, d: 14 }, { ad: "Berat Kandili", m: 3, d: 3 }, { ad: "Çanakkale Zaferi Anma", m: 3, d: 18 },
+{ ad: "Ramazan-ı Şerif Başlangıcı", m: 3, d: 20 }, { ad: "Kadir Gecesi", m: 4, d: 15 }, { ad: "Ramazan Bayramı", m: 4, d: 20 },
+{ ad: "23 Nisan Ulusal Egemenlik Bayramı", m: 4, d: 23 }, { ad: "1 Mayıs Emek Bayramı", m: 5, d: 1 }, { ad: "19 Mayıs Gençlik ve Spor Bayramı", m: 5, d: 19 },
+{ ad: "Kurban Bayramı Arifesi", m: 6, d: 26 }, { ad: "Kurban Bayramı", m: 6, d: 27 }, { ad: "15 Temmuz Demokrasi Bayramı", m: 7, d: 15 },
+{ ad: "30 Ağustos Zafer Bayramı", m: 8, d: 30 }, { ad: "Mevlid Kandili", m: 9, d: 15 }, { ad: "29 Ekim Cumhuriyet Bayramı", m: 10, d: 29 }
+ ];
+
+let sonuclar = [];
+const bugunSifir = new Date(simdi.getFullYear(), simdi.getMonth(), simdi.getDate());
+
+sablonGunler.forEach(g => {
+let y = simdi.getFullYear();
+let hedef = new Date(y, g.m - 1, g.d);
+if (hedef < bugunSifir) { y++; hedef = new Date(y, g.m - 1, g.d); }
+const kalan = Math.ceil((hedef - bugunSifir) / (1000 * 60 * 60 * 24));
+sonuclar.push({ ad: g.ad, sira: kalan, tarihText: ``${g.d}. {y}` });
+});
+
+sonuclar.sort((a,b) => a.sira - b.sira);
+
+let html = "";
+sonuclar.slice(0, 8).forEach(x => {
+html += <div class="takvim-row"&gt;&lt;div&gt;&lt;b&gt;${x.ad}</b> <span style="opacity:0.5; font-size:11px;">(${x.tarihText})&lt;/span&gt;&lt;/div&gt;&lt;span class="takvim-kalan"&gt;${x.sira === 0 ? 'Bugün' : x.sira + ' gün kaldı'}</span></div>`;
+});
+tAlan.innerHTML = html;
+}
+
+async function gunlukUzakVerileriCek() {
+const gununIndeksi = new Date().getDate();
+try {
+const aRes = await fetch(https://api.alquran.cloud/v1/ayah/${gununIndeksi + 100}/tr.diyanet); const aData = await aRes.json(); document.getElementById('ayetText').innerText =“ {turkceSureIsimleri[aData.data.surah.number - 1]} Suresi, ${aData.data.numberInSurah}. Ayet;
+} catch(e) { document.getElementById('ayetText').innerText = "“Şüphesiz namaz, müminler üzerine belirli vakitlere bağlanmış bir farzdır.” (Nisâ, 103)"; }
+
+try {
+const eRes = await fetch(https://api.aladhan.com/v1/asmaAlHusna/${(gununIndeksi % 99) + 1}); const eData = await eRes.json(); const esmaObj = eData.data[0]; document.getElementById('esmaArab').innerText = esmaObj.name; document.getElementById('esmaTr').innerText = esmaObj.transliteration; const trManalar = { "Ar-Rahman": "Bağışlayan, esirgeyen, dünyada her mahlukata merhamet eden.", "Ar-Rahim": "Ahirette sadece müminlere sonsuz merhamet ihtar eden.", "Al-Malik": "Mülkün, evrenin ve tüm yaratılmışların tek mutlak sahibi.", "Al-Quddus": "Her türlü eksiklikten ve kusurdan tamamen münezzeh olan.", "As-Salam": "Kullarını esenliğe çıkaran, barış ve selametin tek kaynağı." }; document.getElementById('esmaAnlam').innerText = trManalar[esmaObj.transliteration] ||Yüce Allah'ın sonsuz kudretini temsil eden mübarek sıfatı (${esmaObj.en.meaning}).;
+} catch(e) {
+document.getElementById('esmaArab').innerText = "الله"; document.getElementById('esmaTr').innerText = "Allah";
+document.getElementById('esmaAnlam').innerText = "Eşi benzeri olmayan, her şeyin tek yaratıcısı.";
+}
+
+try {
+const hadisler = [
+"Namaz dinin direğidir.", "Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",
+"Hakiki müslüman, elinden ve dilinden diğer insanların güvende olduğu kimsedir.",
+"Sizin en hayırlınız, ahlakı en güzel olanınızdır."
+ ];
+document.getElementById('hadisText').innerText = “${hadisler[gununIndeksi % hadisler.length]}”`;
+document.getElementById('hadisKaynak').innerText = "Riyâzü's-Sâlihîn";
+} catch(e){}
+}
+
+async function sureTamEkranAc() {
+const sureNo = document.getElementById('sureSelect').value; if(!sureNo) { alert("Lütfen bir sure seçiniz."); return; }
+document.getElementById('modalSureAdi').innerText = "Sure Yükleniyor...";
+document.getElementById('modalSureIcerik').innerHTML = <p style='text-align:center; padding:20px;'&gt;&lt;i class='fas fa-circle-notch fa-spin'&gt;&lt;/i&gt; Ayetler indiriliyor...&lt;/p>;
+document.getElementById('sureModal').style.display = "block";
+try {
+const arRes = await fetch(https://api.alquran.cloud/v1/surah/${sureNo}); const arData = await arRes.json(); const trRes = await fetch(https://api.alquran.cloud/v1/surah/${sureNo}/tr.diyanet); const trData = await trRes.json();
+let icerikHtml = "";
+for(let i=0; i < arData.data.ayahs.length; i++) {
+icerikHtml += <div class="sure-ayet-box"&gt;&lt;div class="sure-ar"&gt;${arData.data.ayahs[i].text} (${i+1})&lt;/div&gt;&lt;div class="sure-tr"&gt;&lt;b&gt;${i+1}. Ayet Meali:</b> ${trData.data.ayahs[i].text}&lt;/div&gt;&lt;/div>;
+}
+document.getElementById('modalSureAdi').innerText = turkceSureIsimleri[sureNo - 1] + " Suresi";
+document.getElementById('modalSureIcerik').innerHTML = icerikHtml;
+} catch(e) { document.getElementById('modalSureIcerik').innerHTML = "<p style='text-align:center; color:red;'>İnternet bağlantınızı kontrol edin!</p>"; }
+}
+function sureTamEkranKapat() { document.getElementById('sureModal').style.display = "none"; }
+
+function zikirArttir() { zikirSayisi++; document.getElementById('zikirAdet').innerText = zikirSayisi; localStorage.setItem('zikirAdet', zikirSayisi); }
+function zikirSifirla() { zikirSayisi = 0; document.getElementById('zikirAdet').innerText = zikirSayisi; localStorage.setItem('zikirAdet', zikirSayisi); }
+
+function hesaplaKalanSure() {
+if (aktifVakitler.length === 0) return;
+const simdi = new Date(); let hedonVakitIndex = -1; let mevcutVakitIndex = -1;
+const vakitTarihleri = aktifVakitler.map(v => { const [h, m] = v.split(':'); const d = new Date(); d.setHours(h, m, 0, 0); return d; });
+for (let i = 0; i < vakitTarihleri.length; i++) { if (vakitTarihleri[i] > simdi) { hedonVakitIndex = i; mevcutVakitIndex = i === 0 ? 5 : i - 1; break; } }
+if (hedonVakitIndex === -1) { hedonVakitIndex = 0; mevcutVakitIndex = 5; }
+vakitIsimleri.forEach((_, i) => document.getElementById('c'+i).classList.remove('active'));
+document.getElementById('c' + mevcutVakitIndex).classList.add('active');
+document.getElementById('targetVakit').innerText = vakitIsimleri[hedonVakitIndex] + " Kalan";
+let hedefTarih = new Date(vakitTarihleri[hedonVakitIndex]); if (hedefTarih < simdi) hedefTarih.setDate(hedefTarih.getDate() + 1);
+let baslangicTarih = new Date(vakitTarihleri[mevcutVakitIndex]); if (baslangicTarih > simdi && mevcutVakitIndex === 5) baslangicTarih.setDate(baslangicTarih.getDate() - 1);
+const fark = hedefTarih - simdi; const toplamSure = hedefTarih - baslangicTarih;
+const yuzde = Math.max(0, Math.min(100, ((toplamSure - fark) / toplamSure) * 100));
+document.getElementById('vakitProgress').style.width = yuzde + "%";
+const saat = Math.floor(fark / 3600000); const dak = Math.floor((fark % 3600000) / 60000); const san = Math.floor((fark % 60000) / 1000);
+document.getElementById('countdown').innerText = ${saat.toString().padStart(2,'0')}:${dak.toString().padStart(2,'0')}:${san.toString().padStart(2,'0')};
+}
+
+setInterval(() => {
+const d = new Date(); document.getElementById('clock').innerText = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+hesaplaKalanSure();
+}, 1000);
+
+window.onload = () => {
+const kaydedilenTema = localStorage.getItem('theme') || 'dark';
+document.documentElement.setAttribute('data-theme', kaydedilenTema);
+document.getElementById('zikirAdet').innerText = zikirSayisi;
+
+const d = new Date(); document.getElementById('bugunTr').innerText = d.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+ilkKurulumVerileriniYukle();
+gunlukUzakVerileriCek();
+};
+</script>
+</body>
+</html>
